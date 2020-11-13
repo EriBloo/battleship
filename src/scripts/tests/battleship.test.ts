@@ -1,23 +1,29 @@
 import Battleship from '../Battleship';
 
-test('returns Battleship object',() => {
+test('returns Battleship object', () => {
   expect(new Battleship(3).getParts()).toEqual([false, false, false]);
 });
 
 test('can be hit', () => {
   const battleship = new Battleship(3);
   battleship.hit(2);
-  expect(battleship.getParts()).toEqual([false, true, false]);
+  expect(battleship.getParts()).toEqual([false, false, true]);
 });
 
-test('can\'t choose hit value heigher than length',() => {
-  expect(() => new Battleship(3).hit(4)).toThrow();
+test("can't choose hit value heigher than length - 1", () => {
+  expect(() => new Battleship(3).hit(3)).toThrow();
 });
 
 test('isSunk returns correct value if ship is sunk', () => {
   const battleship = new Battleship(3);
+  battleship.hit(0);
   battleship.hit(1);
   battleship.hit(2);
-  battleship.hit(3);
   expect(battleship.isSunk()).toBe(true);
+});
+
+test('can\t modify ship parts directly', () => {
+  const battleship = new Battleship(3);
+  battleship.getParts()[1] = true;
+  expect(battleship.getParts()).toEqual([false, false, false]);
 });
