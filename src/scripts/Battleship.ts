@@ -1,8 +1,10 @@
 class Battleship {
   private parts: boolean[];
+  private origin: number[]; // where the bow of the ship is
 
-  constructor(shipLength: number) {
+  constructor(shipLength: number, origin: number[]) {
     this.parts = new Array(shipLength).fill(false);
+    this.origin = origin;
   }
 
   getParts(): boolean[] {
@@ -12,6 +14,10 @@ class Battleship {
 
   getLength(): number {
     return this.parts.length;
+  }
+
+  getOrigin(): number[] {
+    return [...this.origin];
   }
 
   hit(part: number): void {

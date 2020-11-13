@@ -1,24 +1,19 @@
 import Battleship from './Battleship';
 
-type direction = 'vertical' | 'horizontal';
-
 class Gameboard {
   private size: number;
-  private tiles: boolean[][] | Battleship[][];
-  private shots: boolean[][];
+  private tiles: (boolean[] | Battleship[])[];
 
   constructor(size: number) {
     this.size = size;
     this.tiles = Array.from({ length: size }, () =>
       new Array(size).fill(false),
     );
-    this.shots = Array.from({ length: size }, () =>
-      new Array(size).fill(false),
-    );
   }
 
-  getBoard(): boolean[][] | Battleship[][] {
-    return this.tiles;
+  getTiles(): (boolean[] | Battleship[])[] {
+    // returns rep
+    return [...this.tiles];
   }
 
   getValidTiles(): [number, number][] {
@@ -38,13 +33,13 @@ class Gameboard {
   placeShip(
     shipLength: number,
     location: [number, number],
-    direction: direction,
+    rotated: boolean = false,
   ): void {
     const validTiles = this.getValidTiles();
-    const battleship = new Battleship(shipLength);
+    const battleship = new Battleship(shipLength, [location[0], location[1]]);
     const placementOffset: number[][] = Array.from(
       { length: shipLength },
-      (_, k) => (direction === 'vertical' ? [k, 0] : [0, k]),
+      (_, k) => (rotated ? [k, 0] : [0, k]),
     );
     const markingOffset: number[][] = [
       [-1, -1],
@@ -58,6 +53,7 @@ class Gameboard {
     ];
 
     placementOffset.forEach((offset) => {
+      // checks if ship placement is valid
       if (
         !validTiles.some(
           (tile) =>
@@ -68,6 +64,7 @@ class Gameboard {
         throw new Error('Invalid location.');
       }
       markingOffset.forEach((mark) => {
+        // checks tiles around ship, so no touching ship placing is possible
         if (
           location[0] - offset[0] + mark[0] < 0 ||
           location[0] - offset[0] + mark[0] > this.size - 1 ||
@@ -77,19 +74,21 @@ class Gameboard {
           return;
         }
         if (
-          !this.tiles[location[0] - offset[0] + mark[0]][
-            location[1] - offset[1] + mark[1]
-          ]
-        ) {
           this.tiles[location[0] - offset[0] + mark[0]][
             location[1] - offset[1] + mark[1]
-          ] = true;
+          ] !== false
+        ) {
+          throw new Error('Invalid location.');
         }
       });
+    });
+
+    placementOffset.forEach((offset) => {
       this.tiles[location[0] - offset[0]][location[1] - offset[1]] = battleship;
-      console.log(this.getBoard());
     });
   }
+
+  receiveAttack(location: number[]) {}
 }
 
 export default Gameboard;
