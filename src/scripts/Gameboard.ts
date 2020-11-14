@@ -2,7 +2,7 @@ import Battleship from './Battleship';
 
 class Gameboard {
   private size: number;
-  private tiles: (boolean[] | Battleship[])[];
+  private tiles: (boolean | Battleship)[][];
 
   constructor(size: number) {
     this.size = size;
@@ -11,8 +11,7 @@ class Gameboard {
     );
   }
 
-  getTiles(): (boolean[] | Battleship[])[] {
-    // returns rep
+  getTiles(): (boolean | Battleship)[][] {
     return [...this.tiles];
   }
 
@@ -41,7 +40,7 @@ class Gameboard {
       { length: shipLength },
       (_, k) => (rotated ? [k, 0] : [0, k]),
     );
-    const markingOffset: number[][] = [
+    const contactOffset: number[][] = [
       [-1, -1],
       [-1, 0],
       [-1, 1],
@@ -52,30 +51,30 @@ class Gameboard {
       [1, 1],
     ];
 
-    placementOffset.forEach((offset) => {
+    placementOffset.forEach((placement) => {
       // checks if ship placement is valid
       if (
         !validTiles.some(
           (tile) =>
-            tile[0] === location[0] - offset[0] &&
-            tile[1] === location[1] - offset[1],
+            tile[0] === location[0] - placement[0] &&
+            tile[1] === location[1] - placement[1],
         )
       ) {
         throw new Error('Invalid location.');
       }
-      markingOffset.forEach((mark) => {
+      contactOffset.forEach((contact) => {
         // checks tiles around ship, so no touching ship placing is possible
         if (
-          location[0] - offset[0] + mark[0] < 0 ||
-          location[0] - offset[0] + mark[0] > this.size - 1 ||
-          location[1] - offset[1] + mark[1] < 0 ||
-          location[1] - offset[1] + mark[1] > this.size - 1
+          location[0] - placement[0] + contact[0] < 0 ||
+          location[0] - placement[0] + contact[0] > this.size - 1 ||
+          location[1] - placement[1] + contact[1] < 0 ||
+          location[1] - placement[1] + contact[1] > this.size - 1
         ) {
           return;
         }
         if (
-          this.tiles[location[0] - offset[0] + mark[0]][
-            location[1] - offset[1] + mark[1]
+          this.tiles[location[0] - placement[0] + contact[0]][
+            location[1] - placement[1] + contact[1]
           ] !== false
         ) {
           throw new Error('Invalid location.');
@@ -83,12 +82,32 @@ class Gameboard {
       });
     });
 
-    placementOffset.forEach((offset) => {
-      this.tiles[location[0] - offset[0]][location[1] - offset[1]] = battleship;
+    placementOffset.forEach((placement) => {
+      // if everything is correct places ship
+      this.tiles[location[0] - placement[0]][
+        location[1] - placement[1]
+      ] = battleship;
     });
   }
 
-  receiveAttack(location: number[]) {}
+  receiveAttack(location: number[]): string {
+    const tile = this.tiles[location[0]][location[1]];
+    if (typeof tile === 'boolean') {
+      if (tile === false) {
+        this.tiles[location[0]][location[1]] = true;
+        return 'miss';
+      }
+      return 'invalid';
+    }
+    const shipParts = tile.getParts();
+    const shipOrigin = tile.getOrigin();
+    const partToHit = (shipOrigin[0] - location[0]) + (shipOrigin[1] - location[1]);
+    if (shipParts[partToHit] === false) {
+      tile.hit(partToHit);
+      return 'hit';
+    }
+    return 'invalid';
+  }
 }
 
 export default Gameboard;
