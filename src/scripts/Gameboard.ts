@@ -3,30 +3,22 @@ import Battleship from './Battleship';
 class Gameboard {
   private size: number;
   private tiles: (boolean | Battleship)[][];
+  private ships: Battleship[];
 
   constructor(size: number) {
     this.size = size;
     this.tiles = Array.from({ length: size }, () =>
       new Array(size).fill(false),
     );
+    this.ships = [];
   }
 
-  getTiles(): (boolean | Battleship)[][] {
-    return [...this.tiles];
+  get getTiles(): (boolean | Battleship)[][] {
+    return this.tiles;
   }
 
-  getValidTiles(): [number, number][] {
-    const validTiles: [number, number][] = [];
-
-    for (let i = 0; i < this.size; i += 1) {
-      for (let j = 0; j < this.size; j += 1) {
-        if (!this.tiles[i][j]) {
-          validTiles.push([i, j]);
-        }
-      }
-    }
-
-    return validTiles;
+  get getSize(): number {
+    return this.size;
   }
 
   placeShip(
@@ -34,7 +26,7 @@ class Gameboard {
     location: [number, number],
     rotated: boolean = false,
   ): void {
-    const validTiles = this.getValidTiles();
+    const validPlacement = this.getBoardStates.notShot;
     const battleship = new Battleship(shipLength, [location[0], location[1]]);
     const placementOffset: number[][] = Array.from(
       { length: shipLength },
@@ -54,7 +46,7 @@ class Gameboard {
     placementOffset.forEach((placement) => {
       // checks if ship placement is valid
       if (
-        !validTiles.some(
+        !validPlacement.some(
           (tile) =>
             tile[0] === location[0] - placement[0] &&
             tile[1] === location[1] - placement[1],
@@ -87,26 +79,78 @@ class Gameboard {
       this.tiles[location[0] - placement[0]][
         location[1] - placement[1]
       ] = battleship;
+      this.ships.push(battleship);
     });
   }
 
-  receiveAttack(location: number[]): string {
-    const tile = this.tiles[location[0]][location[1]];
-    if (typeof tile === 'boolean') {
-      if (tile === false) {
-        this.tiles[location[0]][location[1]] = true;
-        return 'miss';
+  receiveAttack(location: [number, number]): boolean {
+    const state = this.getBoardStates;
+    const validAttacks = [...state.shipNotHit, ...state.notShot];
+    if (
+      !validAttacks.some(
+        (attack) => attack[0] === location[0] && attack[1] === location[1],
+      )
+    ) {
+      return false;
+    }
+    if (
+      state.notShot.find((el) => el[0] === location[0] && el[1] === location[1])
+    ) {
+      this.tiles[location[0]][location[1]] = true;
+      return true;
+    }
+    if (
+      state.shipNotHit.find(
+        (el) => el[0] === location[0] && el[1] === location[1],
+      )
+    ) {
+      const tile = this.tiles[location[0]][location[1]];
+      (<Battleship>tile).hit(
+        (<Battleship>tile).getOrigin[0] -
+          location[0] +
+          ((<Battleship>tile).getOrigin[1] - location[1]),
+      );
+      return true;
+    }
+    return false;
+  }
+
+  allSunk(): boolean {
+    return this.ships.every((ship) => ship.isSunk());
+  }
+
+  get getBoardStates(): { [key: string]: [number, number][] } {
+    // assign every coordinates to state it's in: ship hit, ship not hit, not shot (and no ship), missed (and no ship)
+    const states: { [key: string]: [number, number][] } = {
+      shipHit: [],
+      shipNotHit: [],
+      missed: [],
+      notShot: [],
+    };
+
+    for (let i = 0; i < this.size; i += 1) {
+      for (let j = 0; j < this.size; j += 1) {
+        const tile = this.tiles[i][j];
+        if (typeof tile === 'boolean') {
+          if (tile === false) {
+            states.notShot.push([i, j]);
+          } else {
+            states.missed.push([i, j]);
+          }
+        } else {
+          const shipParts = tile.getParts;
+          const shipOrigin = tile.getOrigin;
+          const partToHit = shipOrigin[0] - i + (shipOrigin[1] - j);
+          if (shipParts[partToHit] === false) {
+            states.shipNotHit.push([i, j]);
+          } else {
+            states.shipHit.push([i, j]);
+          }
+        }
       }
-      return 'invalid';
     }
-    const shipParts = tile.getParts();
-    const shipOrigin = tile.getOrigin();
-    const partToHit = (shipOrigin[0] - location[0]) + (shipOrigin[1] - location[1]);
-    if (shipParts[partToHit] === false) {
-      tile.hit(partToHit);
-      return 'hit';
-    }
-    return 'invalid';
+
+    return states;
   }
 }
 

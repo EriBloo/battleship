@@ -2,7 +2,7 @@ import Gameboard from '../Gameboard';
 import Battleship from '../Battleship';
 
 test('returns empty gameboard after creation', () => {
-  expect(new Gameboard(3).getTiles()).toEqual([
+  expect(new Gameboard(3).getTiles).toEqual([
     [false, false, false],
     [false, false, false],
     [false, false, false],
@@ -12,7 +12,7 @@ test('returns empty gameboard after creation', () => {
 test('allows placing ship', () => {
   const board = new Gameboard(3);
   board.placeShip(1, [1, 1], true);
-  expect(board.getTiles()).toEqual([
+  expect(board.getTiles).toEqual([
     [false, false, false],
     [false, new Battleship(1, [1, 1]), false],
     [false, false, false],
@@ -29,7 +29,7 @@ test('correctly places ship horizontally', () => {
   const board = new Gameboard(3);
   const ship = new Battleship(2, [1, 1]);
   board.placeShip(2, [1, 1], false);
-  expect(board.getTiles()).toEqual([
+  expect(board.getTiles).toEqual([
     [false, false, false],
     [ship, ship, false],
     [false, false, false],
@@ -40,7 +40,7 @@ test('correctly places ship vertically', () => {
   const board = new Gameboard(3);
   const ship = new Battleship(2, [1, 1]);
   board.placeShip(2, [1, 1], true);
-  expect(board.getTiles()).toEqual([
+  expect(board.getTiles).toEqual([
     [false, ship, false],
     [false, ship, false],
     [false, false, false],
@@ -53,7 +53,7 @@ test('2 ships placement test', () => {
   board.placeShip(2, [1, 1], true);
   const ship2 = new Battleship(4, [4, 4]);
   board.placeShip(4, [4, 4], false);
-  expect(board.getTiles()).toEqual([
+  expect(board.getTiles).toEqual([
     [false, ship1, false, false, false],
     [false, ship1, false, false, false],
     [false, false, false, false, false],
@@ -75,27 +75,27 @@ test("can't place ships touching each other", () => {
 
 test('checks if attacking empty slot works', () => {
   const board = new Gameboard(3);
-  expect(board.receiveAttack([0, 1])).toBe('miss');
-  expect(board.getTiles()).toEqual([
+  expect(board.receiveAttack([0, 1])).toBe(true);
+  expect(board.getTiles).toEqual([
     [false, true, false],
     [false, false, false],
     [false, false, false],
   ]);
 });
 
-test('attacking already marked space returns invalid', () => {
+test('attacking already marked space returns false', () => {
   const board = new Gameboard(3);
   board.receiveAttack([0, 1]);
-  expect(board.receiveAttack([0, 1])).toBe('invalid');
+  expect(board.receiveAttack([0, 1])).toBe(false);
 });
 
-test('attacking posiiton occupied by ship hits it', () => {
+test('attacking position occupied by ship hits it', () => {
   const board = new Gameboard(3);
   const ship = new Battleship(2, [1, 1]);
   board.placeShip(2, [1, 1], false);
   ship.hit(0);
-  expect(board.receiveAttack([1, 1])).toBe('hit');
-  expect(board.getTiles()).toEqual([
+  expect(board.receiveAttack([1, 1])).toBe(true);
+  expect(board.getTiles).toEqual([
     [false, false, false],
     [ship, ship, false],
     [false, false, false],
@@ -107,17 +107,50 @@ test('attacking ship not at origin position works', () => {
   const ship = new Battleship(2, [1, 1]);
   board.placeShip(2, [1, 1], false);
   ship.hit(1);
-  expect(board.receiveAttack([1, 0])).toBe('hit');
-  expect(board.getTiles()).toEqual([
+  expect(board.receiveAttack([1, 0])).toBe(true);
+  expect(board.getTiles).toEqual([
     [false, false, false],
     [ship, ship, false],
     [false, false, false],
   ]);
 });
 
-test('attacking already damaged part returns invalid', () => {
+test('attacking already damaged part returns false', () => {
   const board = new Gameboard(3);
   board.placeShip(2, [1, 1], false);
-  board.receiveAttack([1, 0])
-  expect(board.receiveAttack([1, 0])).toBe('invalid');
+  board.receiveAttack([1, 0]);
+  expect(board.receiveAttack([1, 0])).toBe(false);
+});
+
+test('correctly returns true if all ships are sunk', () => {
+  const board = new Gameboard(3);
+  board.placeShip(1, [0, 0]);
+  board.placeShip(1, [2, 2]);
+  board.placeShip(1, [2, 0]);
+  board.placeShip(1, [0, 2]);
+  board.receiveAttack([0, 0]);
+  board.receiveAttack([2, 2]);
+  board.receiveAttack([2, 0]);
+  board.receiveAttack([0, 2]);
+  expect(board.allSunk()).toBe(true);
+});
+
+test('returns correct state for empty board', () => {
+  const board = new Gameboard(3);
+  expect(board.getBoardStates).toEqual({
+    shipHit: [],
+    shipNotHit: [],
+    missed: [],
+    notShot: [
+      [0, 0],
+      [0, 1],
+      [0, 2],
+      [1, 0],
+      [1, 1],
+      [1, 2],
+      [2, 0],
+      [2, 1],
+      [2, 2],
+    ],
+  });
 });

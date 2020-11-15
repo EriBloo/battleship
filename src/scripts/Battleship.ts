@@ -7,17 +7,16 @@ class Battleship {
     this.origin = origin;
   }
 
-  getParts(): boolean[] {
-    // returns representation of ship parts array
-    return [...this.parts];
+  get getParts(): boolean[] {
+    return this.parts;
   }
 
-  getLength(): number {
+  get getLength(): number {
     return this.parts.length;
   }
 
-  getOrigin(): number[] {
-    return [...this.origin];
+  get getOrigin(): number[] {
+    return this.origin;
   }
 
   hit(part: number): void {
@@ -25,7 +24,7 @@ class Battleship {
     if (part > this.parts.length - 1) {
       throw new Error(
         `Can\'t choose value heigher than ships length - 1 (${
-          this.getLength() - 1
+          this.getLength - 1
         })`,
       );
     }
