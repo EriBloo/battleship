@@ -3,15 +3,9 @@ import Battleship from './Battleship';
 
 class Player {
   private board: Gameboard;
-  private computer: boolean;
 
-  constructor(board: Gameboard, computer: boolean) {
+  constructor(board: Gameboard) {
     this.board = board;
-    this.computer = computer;
-  }
-
-  get isComputer(): boolean {
-    return this.computer;
   }
 
   get getBoard(): Gameboard {

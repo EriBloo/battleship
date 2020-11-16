@@ -21,6 +21,44 @@ class Gameboard {
     return this.size;
   }
 
+  get getShips(): Battleship[] {
+    return this.ships;
+  }
+
+  get getBoardStates(): { [state: string]: [number, number][] } {
+    // assign every coordinates to state it's in: ship hit, ship not hit, not shot (and no ship), missed (and no ship)
+    const states: { [state: string]: [number, number][] } = {
+      shipHit: [],
+      shipNotHit: [],
+      missed: [],
+      notShot: [],
+    };
+
+    for (let i = 0; i < this.size; i += 1) {
+      for (let j = 0; j < this.size; j += 1) {
+        const tile = this.tiles[i][j];
+        if (typeof tile === 'boolean') {
+          if (tile === false) {
+            states.notShot.push([i, j]);
+          } else {
+            states.missed.push([i, j]);
+          }
+        } else {
+          const shipParts = tile.getParts;
+          const shipOrigin = tile.getOrigin;
+          const partToHit = shipOrigin[0] - i + (shipOrigin[1] - j);
+          if (shipParts[partToHit] === false) {
+            states.shipNotHit.push([i, j]);
+          } else {
+            states.shipHit.push([i, j]);
+          }
+        }
+      }
+    }
+
+    return states;
+  }
+
   placeShip(
     shipLength: number,
     location: [number, number],
@@ -119,38 +157,41 @@ class Gameboard {
     return this.ships.every((ship) => ship.isSunk());
   }
 
-  get getBoardStates(): { [key: string]: [number, number][] } {
-    // assign every coordinates to state it's in: ship hit, ship not hit, not shot (and no ship), missed (and no ship)
-    const states: { [key: string]: [number, number][] } = {
-      shipHit: [],
-      shipNotHit: [],
-      missed: [],
-      notShot: [],
-    };
-
-    for (let i = 0; i < this.size; i += 1) {
-      for (let j = 0; j < this.size; j += 1) {
-        const tile = this.tiles[i][j];
-        if (typeof tile === 'boolean') {
-          if (tile === false) {
-            states.notShot.push([i, j]);
-          } else {
-            states.missed.push([i, j]);
+  distributeShips(ships: number[]):boolean {
+    let done: boolean[] = [];
+    ships
+      .sort((a, b) => b - a)
+      .forEach((len) => {
+        let success: boolean = false;
+        let tried: [[number, number], boolean][] = [];
+        let location: [number, number];
+        let rotated: boolean;
+        do {
+          try {
+            do {
+              location = [
+                Math.floor(Math.random() * this.size),
+                Math.floor(Math.random() * this.size),
+              ];
+              rotated = Math.random() < 0.5 ? true : false;
+            } while (
+              tried.find(
+                (el) =>
+                  el[0][0] === location[0] &&
+                  el[0][1] === location[1] &&
+                  el[1] === rotated,
+              )
+            );
+            this.placeShip(len, location, rotated);
+            success = true;
+          } catch {
+            tried.push([location, rotated]);
+            success = false;
           }
-        } else {
-          const shipParts = tile.getParts;
-          const shipOrigin = tile.getOrigin;
-          const partToHit = shipOrigin[0] - i + (shipOrigin[1] - j);
-          if (shipParts[partToHit] === false) {
-            states.shipNotHit.push([i, j]);
-          } else {
-            states.shipHit.push([i, j]);
-          }
-        }
-      }
-    }
-
-    return states;
+        } while (!success && tried.length < (this.size * this.size));
+        done.push(success);
+      });
+      return done.every((d) => d);
   }
 }
 

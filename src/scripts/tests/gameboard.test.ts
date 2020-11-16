@@ -154,3 +154,20 @@ test('returns correct state for empty board', () => {
     ],
   });
 });
+
+test('places ship automatically', () => {
+  const board = new Gameboard(1);
+  const ship = new Battleship(1, [0, 0])
+  expect(board.distributeShips([1])).toBe(true);
+  expect(board.getTiles).toEqual([[ship]])
+});
+
+test('places 2 ships', () => {
+  const board = new Gameboard(10);
+  expect(board.distributeShips([1, 1])).toBe(true);
+});
+
+test('places all ships in standard game', () => {
+  const board = new Gameboard(10);
+  expect(board.distributeShips([2, 3, 3, 4, 5])).toBe(true);
+});
