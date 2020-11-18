@@ -1,0 +1,708 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`component renders 1`] = `
+<div
+  className="board-wrapper"
+>
+  <div
+    className="board-tile "
+    data-player={0}
+    data-x="0"
+    data-y="0"
+    onClick={[Function]}
+  />
+  <div
+    className="board-tile "
+    data-player={0}
+    data-x="0"
+    data-y="1"
+    onClick={[Function]}
+  />
+  <div
+    className="board-tile "
+    data-player={0}
+    data-x="0"
+    data-y="2"
+    onClick={[Function]}
+  />
+  <div
+    className="board-tile "
+    data-player={0}
+    data-x="0"
+    data-y="3"
+    onClick={[Function]}
+  />
+  <div
+    className="board-tile "
+    data-player={0}
+    data-x="0"
+    data-y="4"
+    onClick={[Function]}
+  />
+  <div
+    className="board-tile "
+    data-player={0}
+    data-x="0"
+    data-y="5"
+    onClick={[Function]}
+  />
+  <div
+    className="board-tile "
+    data-player={0}
+    data-x="0"
+    data-y="6"
+    onClick={[Function]}
+  />
+  <div
+    className="board-tile "
+    data-player={0}
+    data-x="0"
+    data-y="7"
+    onClick={[Function]}
+  />
+  <div
+    className="board-tile "
+    data-player={0}
+    data-x="0"
+    data-y="8"
+    onClick={[Function]}
+  />
+  <div
+    className="board-tile "
+    data-player={0}
+    data-x="0"
+    data-y="9"
+    onClick={[Function]}
+  />
+  <div
+    className="board-tile "
+    data-player={0}
+    data-x="1"
+    data-y="0"
+    onClick={[Function]}
+  />
+  <div
+    className="board-tile "
+    data-player={0}
+    data-x="1"
+    data-y="1"
+    onClick={[Function]}
+  />
+  <div
+    className="board-tile "
+    data-player={0}
+    data-x="1"
+    data-y="2"
+    onClick={[Function]}
+  />
+  <div
+    className="board-tile "
+    data-player={0}
+    data-x="1"
+    data-y="3"
+    onClick={[Function]}
+  />
+  <div
+    className="board-tile "
+    data-player={0}
+    data-x="1"
+    data-y="4"
+    onClick={[Function]}
+  />
+  <div
+    className="board-tile "
+    data-player={0}
+    data-x="1"
+    data-y="5"
+    onClick={[Function]}
+  />
+  <div
+    className="board-tile "
+    data-player={0}
+    data-x="1"
+    data-y="6"
+    onClick={[Function]}
+  />
+  <div
+    className="board-tile "
+    data-player={0}
+    data-x="1"
+    data-y="7"
+    onClick={[Function]}
+  />
+  <div
+    className="board-tile "
+    data-player={0}
+    data-x="1"
+    data-y="8"
+    onClick={[Function]}
+  />
+  <div
+    className="board-tile "
+    data-player={0}
+    data-x="1"
+    data-y="9"
+    onClick={[Function]}
+  />
+  <div
+    className="board-tile "
+    data-player={0}
+    data-x="2"
+    data-y="0"
+    onClick={[Function]}
+  />
+  <div
+    className="board-tile "
+    data-player={0}
+    data-x="2"
+    data-y="1"
+    onClick={[Function]}
+  />
+  <div
+    className="board-tile "
+    data-player={0}
+    data-x="2"
+    data-y="2"
+    onClick={[Function]}
+  />
+  <div
+    className="board-tile "
+    data-player={0}
+    data-x="2"
+    data-y="3"
+    onClick={[Function]}
+  />
+  <div
+    className="board-tile "
+    data-player={0}
+    data-x="2"
+    data-y="4"
+    onClick={[Function]}
+  />
+  <div
+    className="board-tile "
+    data-player={0}
+    data-x="2"
+    data-y="5"
+    onClick={[Function]}
+  />
+  <div
+    className="board-tile "
+    data-player={0}
+    data-x="2"
+    data-y="6"
+    onClick={[Function]}
+  />
+  <div
+    className="board-tile "
+    data-player={0}
+    data-x="2"
+    data-y="7"
+    onClick={[Function]}
+  />
+  <div
+    className="board-tile "
+    data-player={0}
+    data-x="2"
+    data-y="8"
+    onClick={[Function]}
+  />
+  <div
+    className="board-tile "
+    data-player={0}
+    data-x="2"
+    data-y="9"
+    onClick={[Function]}
+  />
+  <div
+    className="board-tile "
+    data-player={0}
+    data-x="3"
+    data-y="0"
+    onClick={[Function]}
+  />
+  <div
+    className="board-tile "
+    data-player={0}
+    data-x="3"
+    data-y="1"
+    onClick={[Function]}
+  />
+  <div
+    className="board-tile "
+    data-player={0}
+    data-x="3"
+    data-y="2"
+    onClick={[Function]}
+  />
+  <div
+    className="board-tile "
+    data-player={0}
+    data-x="3"
+    data-y="3"
+    onClick={[Function]}
+  />
+  <div
+    className="board-tile "
+    data-player={0}
+    data-x="3"
+    data-y="4"
+    onClick={[Function]}
+  />
+  <div
+    className="board-tile "
+    data-player={0}
+    data-x="3"
+    data-y="5"
+    onClick={[Function]}
+  />
+  <div
+    className="board-tile "
+    data-player={0}
+    data-x="3"
+    data-y="6"
+    onClick={[Function]}
+  />
+  <div
+    className="board-tile "
+    data-player={0}
+    data-x="3"
+    data-y="7"
+    onClick={[Function]}
+  />
+  <div
+    className="board-tile "
+    data-player={0}
+    data-x="3"
+    data-y="8"
+    onClick={[Function]}
+  />
+  <div
+    className="board-tile "
+    data-player={0}
+    data-x="3"
+    data-y="9"
+    onClick={[Function]}
+  />
+  <div
+    className="board-tile "
+    data-player={0}
+    data-x="4"
+    data-y="0"
+    onClick={[Function]}
+  />
+  <div
+    className="board-tile "
+    data-player={0}
+    data-x="4"
+    data-y="1"
+    onClick={[Function]}
+  />
+  <div
+    className="board-tile "
+    data-player={0}
+    data-x="4"
+    data-y="2"
+    onClick={[Function]}
+  />
+  <div
+    className="board-tile "
+    data-player={0}
+    data-x="4"
+    data-y="3"
+    onClick={[Function]}
+  />
+  <div
+    className="board-tile "
+    data-player={0}
+    data-x="4"
+    data-y="4"
+    onClick={[Function]}
+  />
+  <div
+    className="board-tile "
+    data-player={0}
+    data-x="4"
+    data-y="5"
+    onClick={[Function]}
+  />
+  <div
+    className="board-tile "
+    data-player={0}
+    data-x="4"
+    data-y="6"
+    onClick={[Function]}
+  />
+  <div
+    className="board-tile "
+    data-player={0}
+    data-x="4"
+    data-y="7"
+    onClick={[Function]}
+  />
+  <div
+    className="board-tile "
+    data-player={0}
+    data-x="4"
+    data-y="8"
+    onClick={[Function]}
+  />
+  <div
+    className="board-tile "
+    data-player={0}
+    data-x="4"
+    data-y="9"
+    onClick={[Function]}
+  />
+  <div
+    className="board-tile "
+    data-player={0}
+    data-x="5"
+    data-y="0"
+    onClick={[Function]}
+  />
+  <div
+    className="board-tile "
+    data-player={0}
+    data-x="5"
+    data-y="1"
+    onClick={[Function]}
+  />
+  <div
+    className="board-tile "
+    data-player={0}
+    data-x="5"
+    data-y="2"
+    onClick={[Function]}
+  />
+  <div
+    className="board-tile "
+    data-player={0}
+    data-x="5"
+    data-y="3"
+    onClick={[Function]}
+  />
+  <div
+    className="board-tile "
+    data-player={0}
+    data-x="5"
+    data-y="4"
+    onClick={[Function]}
+  />
+  <div
+    className="board-tile "
+    data-player={0}
+    data-x="5"
+    data-y="5"
+    onClick={[Function]}
+  />
+  <div
+    className="board-tile "
+    data-player={0}
+    data-x="5"
+    data-y="6"
+    onClick={[Function]}
+  />
+  <div
+    className="board-tile "
+    data-player={0}
+    data-x="5"
+    data-y="7"
+    onClick={[Function]}
+  />
+  <div
+    className="board-tile "
+    data-player={0}
+    data-x="5"
+    data-y="8"
+    onClick={[Function]}
+  />
+  <div
+    className="board-tile "
+    data-player={0}
+    data-x="5"
+    data-y="9"
+    onClick={[Function]}
+  />
+  <div
+    className="board-tile "
+    data-player={0}
+    data-x="6"
+    data-y="0"
+    onClick={[Function]}
+  />
+  <div
+    className="board-tile "
+    data-player={0}
+    data-x="6"
+    data-y="1"
+    onClick={[Function]}
+  />
+  <div
+    className="board-tile "
+    data-player={0}
+    data-x="6"
+    data-y="2"
+    onClick={[Function]}
+  />
+  <div
+    className="board-tile "
+    data-player={0}
+    data-x="6"
+    data-y="3"
+    onClick={[Function]}
+  />
+  <div
+    className="board-tile "
+    data-player={0}
+    data-x="6"
+    data-y="4"
+    onClick={[Function]}
+  />
+  <div
+    className="board-tile "
+    data-player={0}
+    data-x="6"
+    data-y="5"
+    onClick={[Function]}
+  />
+  <div
+    className="board-tile "
+    data-player={0}
+    data-x="6"
+    data-y="6"
+    onClick={[Function]}
+  />
+  <div
+    className="board-tile "
+    data-player={0}
+    data-x="6"
+    data-y="7"
+    onClick={[Function]}
+  />
+  <div
+    className="board-tile "
+    data-player={0}
+    data-x="6"
+    data-y="8"
+    onClick={[Function]}
+  />
+  <div
+    className="board-tile "
+    data-player={0}
+    data-x="6"
+    data-y="9"
+    onClick={[Function]}
+  />
+  <div
+    className="board-tile "
+    data-player={0}
+    data-x="7"
+    data-y="0"
+    onClick={[Function]}
+  />
+  <div
+    className="board-tile "
+    data-player={0}
+    data-x="7"
+    data-y="1"
+    onClick={[Function]}
+  />
+  <div
+    className="board-tile "
+    data-player={0}
+    data-x="7"
+    data-y="2"
+    onClick={[Function]}
+  />
+  <div
+    className="board-tile "
+    data-player={0}
+    data-x="7"
+    data-y="3"
+    onClick={[Function]}
+  />
+  <div
+    className="board-tile "
+    data-player={0}
+    data-x="7"
+    data-y="4"
+    onClick={[Function]}
+  />
+  <div
+    className="board-tile "
+    data-player={0}
+    data-x="7"
+    data-y="5"
+    onClick={[Function]}
+  />
+  <div
+    className="board-tile "
+    data-player={0}
+    data-x="7"
+    data-y="6"
+    onClick={[Function]}
+  />
+  <div
+    className="board-tile "
+    data-player={0}
+    data-x="7"
+    data-y="7"
+    onClick={[Function]}
+  />
+  <div
+    className="board-tile "
+    data-player={0}
+    data-x="7"
+    data-y="8"
+    onClick={[Function]}
+  />
+  <div
+    className="board-tile "
+    data-player={0}
+    data-x="7"
+    data-y="9"
+    onClick={[Function]}
+  />
+  <div
+    className="board-tile "
+    data-player={0}
+    data-x="8"
+    data-y="0"
+    onClick={[Function]}
+  />
+  <div
+    className="board-tile "
+    data-player={0}
+    data-x="8"
+    data-y="1"
+    onClick={[Function]}
+  />
+  <div
+    className="board-tile "
+    data-player={0}
+    data-x="8"
+    data-y="2"
+    onClick={[Function]}
+  />
+  <div
+    className="board-tile "
+    data-player={0}
+    data-x="8"
+    data-y="3"
+    onClick={[Function]}
+  />
+  <div
+    className="board-tile "
+    data-player={0}
+    data-x="8"
+    data-y="4"
+    onClick={[Function]}
+  />
+  <div
+    className="board-tile "
+    data-player={0}
+    data-x="8"
+    data-y="5"
+    onClick={[Function]}
+  />
+  <div
+    className="board-tile "
+    data-player={0}
+    data-x="8"
+    data-y="6"
+    onClick={[Function]}
+  />
+  <div
+    className="board-tile "
+    data-player={0}
+    data-x="8"
+    data-y="7"
+    onClick={[Function]}
+  />
+  <div
+    className="board-tile "
+    data-player={0}
+    data-x="8"
+    data-y="8"
+    onClick={[Function]}
+  />
+  <div
+    className="board-tile "
+    data-player={0}
+    data-x="8"
+    data-y="9"
+    onClick={[Function]}
+  />
+  <div
+    className="board-tile "
+    data-player={0}
+    data-x="9"
+    data-y="0"
+    onClick={[Function]}
+  />
+  <div
+    className="board-tile "
+    data-player={0}
+    data-x="9"
+    data-y="1"
+    onClick={[Function]}
+  />
+  <div
+    className="board-tile "
+    data-player={0}
+    data-x="9"
+    data-y="2"
+    onClick={[Function]}
+  />
+  <div
+    className="board-tile "
+    data-player={0}
+    data-x="9"
+    data-y="3"
+    onClick={[Function]}
+  />
+  <div
+    className="board-tile "
+    data-player={0}
+    data-x="9"
+    data-y="4"
+    onClick={[Function]}
+  />
+  <div
+    className="board-tile "
+    data-player={0}
+    data-x="9"
+    data-y="5"
+    onClick={[Function]}
+  />
+  <div
+    className="board-tile "
+    data-player={0}
+    data-x="9"
+    data-y="6"
+    onClick={[Function]}
+  />
+  <div
+    className="board-tile "
+    data-player={0}
+    data-x="9"
+    data-y="7"
+    onClick={[Function]}
+  />
+  <div
+    className="board-tile "
+    data-player={0}
+    data-x="9"
+    data-y="8"
+    onClick={[Function]}
+  />
+  <div
+    className="board-tile "
+    data-player={0}
+    data-x="9"
+    data-y="9"
+    onClick={[Function]}
+  />
+</div>
+`;

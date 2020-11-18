@@ -62,11 +62,11 @@ class Gameboard {
   placeShip(
     shipLength: number,
     location: [number, number],
-    rotated: boolean = false,
+    rotated: boolean,
   ): void {
     const validPlacement = this.getBoardStates.notShot;
-    const battleship = new Battleship(shipLength, [location[0], location[1]]);
-    const placementOffset: number[][] = Array.from(
+    const battleship = new Battleship(shipLength, [location[0], location[1]], rotated);
+    const placementOffset: [number, number][] = Array.from(
       { length: shipLength },
       (_, k) => (rotated ? [k, 0] : [0, k]),
     );
@@ -117,7 +117,9 @@ class Gameboard {
       this.tiles[location[0] - placement[0]][
         location[1] - placement[1]
       ] = battleship;
-      this.ships.push(battleship);
+      if (placement[0] === 0 && placement[1] === 0) {
+        this.ships.push(battleship);
+      }
     });
   }
 
@@ -148,6 +150,7 @@ class Gameboard {
           location[0] +
           ((<Battleship>tile).getOrigin[1] - location[1]),
       );
+      this.markAroundSunk(<Battleship>tile);
       return true;
     }
     return false;
@@ -158,14 +161,17 @@ class Gameboard {
   }
 
   distributeShips(ships: number[]):boolean {
-    let done: boolean[] = [];
+    const done: boolean[] = [];
     ships
       .sort((a, b) => b - a)
       .forEach((len) => {
-        let success: boolean = false;
-        let tried: [[number, number], boolean][] = [];
-        let location: [number, number];
-        let rotated: boolean;
+        let success = false;
+        const tried: [[number, number], boolean][] = [];
+        let location: [number, number] = [
+          Math.floor(Math.random() * this.size),
+          Math.floor(Math.random() * this.size),
+        ];
+        let rotated: boolean = Math.random() < 0.5 ? true : false;
         do {
           try {
             do {
@@ -192,6 +198,47 @@ class Gameboard {
         done.push(success);
       });
       return done.every((d) => d);
+  }
+
+  private markAroundSunk(ship: Battleship): void {
+    if (ship.isSunk()) {
+      const origin = ship.getOrigin;
+      const partsOffset = Array.from(
+        { length: ship.getLength },
+        (_, k) => (ship.getRotated ? [k, 0] : [0, k]),
+      );
+      const aroundOffset: number[][] = [
+        [-1, -1],
+        [-1, 0],
+        [-1, 1],
+        [0, -1],
+        [0, 1],
+        [1, -1],
+        [1, 0],
+        [1, 1],
+      ];
+      partsOffset.forEach((part) => {
+        aroundOffset.forEach((around => {
+          if (
+            origin[0] - part[0] + around[0] < 0 ||
+            origin[0] - part[0] + around[0] > this.size - 1 ||
+            origin[1] - part[1] + around[1] < 0 ||
+            origin[1] - part[1] + around[1] > this.size - 1
+          ) {
+            return;
+          }
+          if (
+            this.tiles[origin[0] - part[0] + around[0]][
+              origin[1] - part[1] + around[1]
+            ] === false
+          ) {
+            this.tiles[origin[0] - part[0] + around[0]][
+              origin[1] - part[1] + around[1]
+            ] = true;
+          }
+        }));
+      });
+    }
   }
 }
 

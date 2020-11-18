@@ -1,6 +1,5 @@
 import Player from './Player';
 import Gameboard from './Gameboard';
-import Battleship from './Battleship'
 
 class Game {
   private shipSizes: number[];
@@ -12,16 +11,16 @@ class Game {
   constructor(shipSizes: number[]) {
     this.shipSizes = shipSizes;
     this.players = [
-      new Player(new Gameboard(10)),
-      new Player(new Gameboard(10)),
+      new Player(new Gameboard(10), 'Player'),
+      new Player(new Gameboard(10), 'Computer'),
     ];
     this.currentPlayer = 0;
     this.initialized = false;
     this.winner = -1;
   }
 
-  init() {
-    if (this.players[0].getBoard.getShips.length === this.shipSizes.length) {
+  init(): void {
+    if (this.players[0].getBoard.getShips.length === this.shipSizes.length && !this.initialized) {
       this.players[1].getBoard.distributeShips(this.shipSizes);
       this.initialized = true;
     }
@@ -35,6 +34,26 @@ class Game {
     return this.players[1 - this.currentPlayer];
   }
 
+  get getTurn(): 0 | 1 {
+    return this.currentPlayer;
+  }
+
+  get getWinner(): -1 | 0 | 1 {
+    return this.winner;
+  }
+
+  set setWinner(winner: -1 | 0 | 1) {
+    this.winner = winner;
+  }
+  
+  get getInit(): boolean {
+    return this.initialized;
+  }
+
+  getPlayer(index: (0 | 1)): Player {
+    return this.players[index];
+  }
+
   next(): void {
     this.currentPlayer = <0 | 1>(1 - this.currentPlayer);
   }
@@ -45,29 +64,15 @@ class Game {
 
   computerTurn(): void {
     let attack: [number, number];
-    let success: boolean = false;
+    let success = false;
     do {
       attack = <[number, number]>(
         this.getCurrentPlayer.chooseAttack(
-          this.getOpponent.getBoard.getBoardStates,
+          this.getOpponent.getBoard
         )
       );
       success = this.getOpponent.getBoard.receiveAttack(attack);
     } while (!success);
-  }
-
-  loop(location: [number, number]): void {
-    if (this.initialized) {
-      const success = this.playerTurn(location);
-      if (success) {
-        this.winner = this.isWinner();
-        this.next();
-        if (this.winner === -1) {
-          this.computerTurn();
-          this.next();
-        }
-      }
-    }
   }
 
   isWinner(): -1 | 0 | 1 {
