@@ -15,12 +15,14 @@ function App(): ReactElement {
 
   useEffect(() => {
     game.getPlayer(0).getBoard.distributeShips(ships);
-    setUpdate(prevState => 1 - prevState);
+    setUpdate((prevState) => 1 - prevState);
   }, []);
 
   return (
     <div className="app">
-      <button type="button" onClick={initGame}>StartGame</button>
+      <button type="button" onClick={initGame}>
+        StartGame
+      </button>
       <Boards game={game} update={update} />
     </div>
   );

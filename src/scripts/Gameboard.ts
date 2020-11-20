@@ -121,16 +121,13 @@ class Gameboard {
       this.tiles[location[0] - placement[0]][
         location[1] - placement[1]
       ] = battleship;
-      if (placement[0] === 0 && placement[1] === 0) {
-        this.ships.push(battleship);
-      }
     });
+    this.ships.push(battleship);
   }
 
   removeShip(location: number[]): void | Battleship {
-    if (typeof this.tiles[location[0]][location[1]] === 'boolean') {
-      return;
-    }
+    if (typeof this.tiles[location[0]][location[1]] === 'boolean') return;
+
     const ship = this.tiles[location[0]][location[1]] as Battleship;
     const shipLength = ship.getLength;
     const shipOrigin = ship.getOrigin;
@@ -144,6 +141,7 @@ class Gameboard {
       this.tiles[shipOrigin[0] - off[0]][shipOrigin[1] - off[1]] = false;
     });
     this.ships = this.ships.filter(
+      // remove ship from ship array
       (ship) =>
         ship.getLength !== shipLength ||
         ship.getOrigin[0] !== shipOrigin[0] ||
@@ -154,13 +152,28 @@ class Gameboard {
     return ship;
   }
 
-  rotateShip(location: number[]): boolean {
+  rotateShip(location: [number, number]): boolean {
     const ship = this.removeShip(location);
     if (ship) {
       try {
         this.placeShip(ship.getLength, ship.getOrigin, !ship.getRotated);
         return true;
       } catch {
+        this.placeShip(ship.getLength, ship.getOrigin, ship.getRotated);
+        return false;
+      }
+    }
+    return false;
+  }
+
+  moveShip(from: [number, number], to: [number, number]): boolean {
+    const ship = this.removeShip(from);
+    if (ship) {
+      try {
+        this.placeShip(ship.getLength, to, ship.getRotated);
+        return true;
+      }
+      catch {
         this.placeShip(ship.getLength, ship.getOrigin, ship.getRotated);
         return false;
       }

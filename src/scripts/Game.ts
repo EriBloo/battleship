@@ -20,7 +20,10 @@ class Game {
   }
 
   init(): void {
-    if (this.players[0].getBoard.getShips.length === this.shipSizes.length && !this.initialized) {
+    if (
+      this.players[0].getBoard.getShips.length === this.shipSizes.length &&
+      !this.initialized
+    ) {
       this.players[1].getBoard.distributeShips(this.shipSizes);
       this.initialized = true;
     }
@@ -45,7 +48,7 @@ class Game {
   set setWinner(winner: -1 | 0 | 1) {
     this.winner = winner;
   }
-  
+
   get getInit(): boolean {
     return this.initialized;
   }
@@ -54,7 +57,7 @@ class Game {
     return this.shipSizes;
   }
 
-  getPlayer(index: (0 | 1)): Player {
+  getPlayer(index: 0 | 1): Player {
     return this.players[index];
   }
 
@@ -71,9 +74,7 @@ class Game {
     let success = false;
     do {
       attack = <[number, number]>(
-        this.getCurrentPlayer.chooseAttack(
-          this.getOpponent.getBoard
-        )
+        this.getCurrentPlayer.chooseAttack(this.getOpponent.getBoard)
       );
       success = this.getOpponent.getBoard.receiveAttack(attack);
     } while (!success);

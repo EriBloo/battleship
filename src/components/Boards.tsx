@@ -14,7 +14,9 @@ function Boards(props: { game: Game; update: number }): ReactElement {
   const [block, setBlock] = useState(false);
 
   function timeout(min: number, max: number) {
-    return new Promise(resolve => setTimeout(resolve, Math.floor(Math.random() * (max - min)) + min));
+    return new Promise((resolve) =>
+      setTimeout(resolve, Math.floor(Math.random() * (max - min)) + min),
+    );
   }
 
   function updateStatePlayer() {
@@ -46,7 +48,7 @@ function Boards(props: { game: Game; update: number }): ReactElement {
           props.game.next();
           updateTurn();
           updateStatePlayer();
-          setBlock(false)
+          setBlock(false);
         }
       } else {
         setBlock(false);
@@ -61,15 +63,38 @@ function Boards(props: { game: Game; update: number }): ReactElement {
     }
   }
 
+  function moveShip(from: [number, number], to: [number, number]): void {
+    if (!props.game.getInit) {
+      props.game.getPlayer(0).getBoard.moveShip(from, to);
+      updateStatePlayer();
+    }
+  }
+
   useEffect(() => {
     updateStatePlayer();
     updateStateComputer();
-  }, [props.update])
+  }, [props.update]);
 
   return (
     <div className="board-container">
-      <Board player={0} game={props.game} state={statePlayer} loop={loop} rotate={rotateShip} turn={turn} />
-      <Board player={1} game={props.game} state={stateComputer} loop={loop} rotate={rotateShip} turn={turn} />
+      <Board
+        player={0}
+        game={props.game}
+        state={statePlayer}
+        loop={loop}
+        rotate={rotateShip}
+        move={moveShip}
+        turn={turn}
+      />
+      <Board
+        player={1}
+        game={props.game}
+        state={stateComputer}
+        loop={loop}
+        rotate={rotateShip}
+        move={moveShip}
+        turn={turn}
+      />
     </div>
   );
 }
