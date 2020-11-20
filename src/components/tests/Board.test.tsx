@@ -5,6 +5,17 @@ import Game from '../../scripts/Game';
 
 test('component renders', () => {
   const game = new Game([2, 2]);
-  const tree = renderer.create(<Board game={game} player={0} state={game.getCurrentPlayer.getBoard.getBoardStates} loop={() => {console.log('mock')}} />).toJSON();
+  const tree = renderer
+    .create(
+      <Board
+        game={game}
+        player={0}
+        state={game.getCurrentPlayer.getBoard.getBoardStates}
+        loop={() => {
+          return;
+        }}
+      />,
+    )
+    .toJSON();
   expect(tree).toMatchSnapshot();
 });

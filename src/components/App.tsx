@@ -5,20 +5,23 @@ import 'normalize.css';
 import '../styles/App.scss';
 
 function App(): ReactElement {
-  const [game, setGame] = useState(new Game([2, 3, 3, 4, 5]));
+  const ships: number[] = [5, 4, 3, 3, 2];
+  const [game, setGame] = useState(new Game(ships));
+  const [update, setUpdate] = useState(0);
 
   const initGame = () => {
     game.init();
   };
 
   useEffect(() => {
-    game.getPlayer(0).getBoard.distributeShips([2, 3, 3, 4, 5])
+    game.getPlayer(0).getBoard.distributeShips(ships);
+    setUpdate(prevState => 1 - prevState);
   }, []);
 
   return (
     <div className="app">
       <button type="button" onClick={initGame}>StartGame</button>
-      <Boards game={game} />
+      <Boards game={game} update={update} />
     </div>
   );
 }

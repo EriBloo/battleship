@@ -6,4 +6,21 @@
   justify-content: center;
   align-items: center;
   gap: 10rem;
+
+  .ships-wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+
+    .ship {
+      display: flex;
+      gap: 0.3rem;
+
+      .part {
+        width: 2rem;
+        height: 2rem;
+        background-color: chartreuse;
+      }
+    }
+  }
 }

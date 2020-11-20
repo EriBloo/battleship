@@ -65,7 +65,11 @@ class Gameboard {
     rotated: boolean,
   ): void {
     const validPlacement = this.getBoardStates.notShot;
-    const battleship = new Battleship(shipLength, [location[0], location[1]], rotated);
+    const battleship = new Battleship(
+      shipLength,
+      [location[0], location[1]],
+      rotated,
+    );
     const placementOffset: [number, number][] = Array.from(
       { length: shipLength },
       (_, k) => (rotated ? [k, 0] : [0, k]),
@@ -123,6 +127,47 @@ class Gameboard {
     });
   }
 
+  removeShip(location: number[]): void | Battleship {
+    if (typeof this.tiles[location[0]][location[1]] === 'boolean') {
+      return;
+    }
+    const ship = this.tiles[location[0]][location[1]] as Battleship;
+    const shipLength = ship.getLength;
+    const shipOrigin = ship.getOrigin;
+    const shipRotated = ship.getRotated;
+    const offset: [number, number][] = Array.from(
+      { length: shipLength },
+      (_, k) => (shipRotated ? [k, 0] : [0, k]),
+    );
+
+    offset.forEach((off) => {
+      this.tiles[shipOrigin[0] - off[0]][shipOrigin[1] - off[1]] = false;
+    });
+    this.ships = this.ships.filter(
+      (ship) =>
+        ship.getLength !== shipLength ||
+        ship.getOrigin[0] !== shipOrigin[0] ||
+        ship.getOrigin[1] !== shipOrigin[1] ||
+        ship.getRotated !== shipRotated,
+    );
+
+    return ship;
+  }
+
+  rotateShip(location: number[]): boolean {
+    const ship = this.removeShip(location);
+    if (ship) {
+      try {
+        this.placeShip(ship.getLength, ship.getOrigin, !ship.getRotated);
+        return true;
+      } catch {
+        this.placeShip(ship.getLength, ship.getOrigin, ship.getRotated);
+        return false;
+      }
+    }
+    return false;
+  }
+
   receiveAttack(location: [number, number]): boolean {
     const state = this.getBoardStates;
     const validAttacks = [...state.shipNotHit, ...state.notShot];
@@ -160,7 +205,7 @@ class Gameboard {
     return this.ships.every((ship) => ship.isSunk());
   }
 
-  distributeShips(ships: number[]):boolean {
+  distributeShips(ships: number[]): boolean {
     const done: boolean[] = [];
     ships
       .sort((a, b) => b - a)
@@ -194,18 +239,17 @@ class Gameboard {
             tried.push([location, rotated]);
             success = false;
           }
-        } while (!success && tried.length < (this.size * this.size));
+        } while (!success && tried.length < this.size * this.size);
         done.push(success);
       });
-      return done.every((d) => d);
+    return done.every((d) => d);
   }
 
   private markAroundSunk(ship: Battleship): void {
     if (ship.isSunk()) {
       const origin = ship.getOrigin;
-      const partsOffset = Array.from(
-        { length: ship.getLength },
-        (_, k) => (ship.getRotated ? [k, 0] : [0, k]),
+      const partsOffset = Array.from({ length: ship.getLength }, (_, k) =>
+        ship.getRotated ? [k, 0] : [0, k],
       );
       const aroundOffset: number[][] = [
         [-1, -1],
@@ -218,7 +262,7 @@ class Gameboard {
         [1, 1],
       ];
       partsOffset.forEach((part) => {
-        aroundOffset.forEach((around => {
+        aroundOffset.forEach((around) => {
           if (
             origin[0] - part[0] + around[0] < 0 ||
             origin[0] - part[0] + around[0] > this.size - 1 ||
@@ -236,7 +280,7 @@ class Gameboard {
               origin[1] - part[1] + around[1]
             ] = true;
           }
-        }));
+        });
       });
     }
   }

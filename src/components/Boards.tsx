@@ -1,9 +1,10 @@
-import React, { ReactElement, useState } from 'react';
+import React, { ReactElement, useEffect, useState } from 'react';
 import Board from './Board';
 import Game from '../scripts/Game';
 import '../styles/Boards.scss';
 
-function Boards(props: { game: Game }): ReactElement {
+function Boards(props: { game: Game; update: number }): ReactElement {
+  const [turn, setTurn] = useState(props.game.getTurn);
   const [statePlayer, setStatePlayer] = useState(
     props.game.getPlayer(0).getBoard.getBoardStates,
   );
@@ -12,8 +13,8 @@ function Boards(props: { game: Game }): ReactElement {
   );
   const [block, setBlock] = useState(false);
 
-  function timeout(ms: number) {
-    return new Promise(resolve => setTimeout(resolve, ms));
+  function timeout(min: number, max: number) {
+    return new Promise(resolve => setTimeout(resolve, Math.floor(Math.random() * (max - min)) + min));
   }
 
   function updateStatePlayer() {
@@ -22,6 +23,10 @@ function Boards(props: { game: Game }): ReactElement {
 
   function updateStateComputer() {
     setStateComputer(props.game.getPlayer(1).getBoard.getBoardStates);
+  }
+
+  function updateTurn() {
+    setTurn(props.game.getTurn);
   }
 
   async function loop(loc: [number, number]): Promise<void> {
@@ -33,22 +38,38 @@ function Boards(props: { game: Game }): ReactElement {
         props.game.setWinner = props.game.isWinner();
         updateStateComputer();
         if (props.game.getWinner === -1) {
-          await timeout(1000);
           props.game.next();
+          updateTurn();
+          await timeout(500, 2000);
           props.game.computerTurn();
           props.game.setWinner = props.game.isWinner();
           props.game.next();
+          updateTurn();
           updateStatePlayer();
           setBlock(false)
         }
+      } else {
+        setBlock(false);
       }
     }
   }
 
+  function rotateShip(loc: [number, number]): void {
+    if (!props.game.getInit) {
+      props.game.getPlayer(0).getBoard.rotateShip(loc);
+      updateStatePlayer();
+    }
+  }
+
+  useEffect(() => {
+    updateStatePlayer();
+    updateStateComputer();
+  }, [props.update])
+
   return (
     <div className="board-container">
-      <Board player={0} game={props.game} state={statePlayer} loop={loop} />
-      <Board player={1} game={props.game} state={stateComputer} loop={loop} />
+      <Board player={0} game={props.game} state={statePlayer} loop={loop} rotate={rotateShip} turn={turn} />
+      <Board player={1} game={props.game} state={stateComputer} loop={loop} rotate={rotateShip} turn={turn} />
     </div>
   );
 }

@@ -8,11 +8,21 @@ function Board(props: {
   game: Game;
   state: { [state: string]: [number, number][] };
   loop: (loc: [number, number]) => void;
+  rotate: (loc: [number, number]) => void;
+  turn: 0 | 1;
 }): ReactElement {
-  const [currentTurn, setCurrentTurn] = useState(props.game.getTurn);
   const [active, setActive] = useState('');
 
   function updateTiles(): void {
+    // adds classes to elements appropriate to their state
+    const elements = document.querySelectorAll(`.board-tile[data-player="${props.player}"]`);
+    elements.forEach((el) => {
+      el.classList.remove('ship-not-hit');
+      el.classList.remove('ship-hit');
+      el.classList.remove('ship-sunk');
+      el.classList.remove('missed');
+    });
+    
     if (props.player === 0) {
       props.state.shipNotHit.map((ship) => {
         const element = document.querySelector(
@@ -43,42 +53,59 @@ function Board(props: {
     });
   }
 
-  function loop(e: React.MouseEvent<HTMLDivElement>): void {
-    if (props.player === 1 - currentTurn) {
-      const el = e.target as HTMLDivElement;
-      props.loop([parseInt(el.getAttribute('data-x') as string, 10), parseInt(el.getAttribute('data-y') as string, 10)]);
+  function chooseAction(e: React.MouseEvent<HTMLDivElement>): void {
+    const el = e.target as HTMLDivElement;
+    if (props.player === 1 - props.turn) {
+      props.loop([
+        parseInt(el.getAttribute('data-x') as string, 10),
+        parseInt(el.getAttribute('data-y') as string, 10),
+      ]);
+    } else if (props.player === 0) {
+      props.rotate([
+        parseInt(el.getAttribute('data-x') as string, 10),
+        parseInt(el.getAttribute('data-y') as string, 10),
+      ])
     }
   }
 
   useEffect(() => {
-    if (currentTurn === 1 - props.player) {
+    if (props.turn === 1 - props.player) {
       setActive('active');
     } else {
       setActive('');
     }
-  }, [currentTurn]);
+    updateTiles();
+  }, [props.turn]);
 
   useEffect(() => {
     updateTiles();
-  }, [props.state]);
+  });
 
   return (
-    <div className="board-wrapper">
-      {props.game.getPlayer(props.player).getBoard.getTiles.map((row, i) => {
-        return row.map((_, j) => {
+    <table className={`board-wrapper ${active}`}>
+      <tbody>
+        {props.game.getPlayer(props.player).getBoard.getTiles.map((row, i) => {
           return (
-            <div
-              key={`(${i}, ${j})`}
-              data-x={`${i}`}
-              data-y={`${j}`}
-              data-player={props.player}
-              className={`board-tile ${active}`}
-              onClick={loop}
-            />
+            <tr key={i} className="board-row">
+              {row.map((_, j) => {
+                return (
+                  <td key={j} className="board-element">
+                    <div
+                      key={`(${i}, ${j})`}
+                      data-x={`${i}`}
+                      data-y={`${j}`}
+                      data-player={props.player}
+                      className="board-tile"
+                      onClick={chooseAction}
+                    />
+                  </td>
+                );
+              })}
+            </tr>
           );
-        });
-      })}
-    </div>
+        })}
+      </tbody>
+    </table>
   );
 }
 

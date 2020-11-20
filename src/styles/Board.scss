@@ -1,37 +1,45 @@
 .board-wrapper {
   width: 20rem;
   height: 20rem;
-  display: grid;
-  grid-template-columns: repeat(10, 1fr);
-  grid-template-rows: repeat(10, 1fr);
   background-color: #00adb5;
-  border: 1px solid #00adb5;
-  grid-gap: 1px;
   opacity: .6;
 
-  .board-tile {
-    background-color: #f4f4f4;
-  }
+  .board-row {
+    
+    .board-element {
 
-  .active:hover {
+      .board-tile {
+        width: 2rem;
+        height: 2rem;
+        background-color: #f4f4f4;
+      }
+    
+      .ship-not-hit {
+        background-color: rgb(109, 109, 168);
+        cursor: pointer;
+      }
+    
+      .ship-hit {
+        background-color: rgb(194, 135, 135);
+      }
+    
+      .ship-sunk {
+        background-color: rgb(116, 116, 116);
+      }
+    
+      .missed {
+        background-color: rgb(236, 236, 162);
+      }
+    }
+  }
+}
+
+.active {
+  opacity: .8;
+
+  .board-tile:hover {
     background-color: rgb(166, 214, 166);
     border: 2px solid rgb(92, 158, 92);
     cursor: pointer;
-  }
-
-  .ship-not-hit {
-    background-color: rgb(109, 109, 168);
-  }
-
-  .ship-hit {
-    background-color: rgb(194, 135, 135);
-  }
-
-  .ship-sunk {
-    background-color: rgb(116, 116, 116);
-  }
-
-  .missed {
-    background-color: rgb(236, 236, 162);
   }
 }

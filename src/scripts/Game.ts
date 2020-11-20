@@ -50,6 +50,10 @@ class Game {
     return this.initialized;
   }
 
+  get getShips(): number[] {
+    return this.shipSizes;
+  }
+
   getPlayer(index: (0 | 1)): Player {
     return this.players[index];
   }
