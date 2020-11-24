@@ -1,134 +1,145 @@
-.board-wrapper {
-  opacity: .6;
-  counter-reset: row;
-  counter-reset: column;
+.board {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 
-  .board-row {
-    counter-increment: row;
+  .board-wrapper {
+    opacity: .4;
+    counter-reset: row column;
 
-    &:last-child {
+    .board-row {
+      counter-increment: row;
 
+      &:last-child {
+
+        .board-element {
+          counter-increment: column;
+          
+          &::after {
+            content: counter(column, upper-latin);
+          }
+        }
+      }
+
+      &::before {
+        content: counter(row);
+      }
+      
       .board-element {
-        counter-increment: column;
-        
-        &::after {
-          content: counter(column);
+
+        &:first {
+          background-color: red;
         }
-      }
-    }
 
-    &::before {
-      content: counter(row);
-    }
-    
-    .board-element {
-
-      &:first {
-        background-color: red;
-      }
-
-      .board-tile {
-        position: relative;
-        width: calc(1rem + 1vw);
-        height: calc(1rem + 1vw);
-        background-color: #eeeeee;
-        border: 1px solid #393b44;
-      }
-    
-      .ship-not-hit {
-        background-color: #839b97;
-        cursor: pointer;
-      }
-    
-      .ship-hit {
-        background-color: #c86b85;
-
-        &::after {
-          content: '\f00d';
-          position: absolute;
-          font-family: 'Font Awesome 5 Free';
-          font-weight: 900;
-          font-size: 10px;
-          left: 50%;
-          top: 50%;
-          transform: translate(-50%, -50%);
+        .board-tile {
+          position: relative;
+          width: calc(1rem + 1vw);
+          height: calc(1rem + 1vw);
+          background-color: #eeeeee;
+          border: 1px solid #393b44;
         }
-      }
-    
-      .ship-sunk {
-        background-color: #bbbbbb;
-
-        &::after {
-          content: '\f00d';
-          position: absolute;
-          font-family: 'Font Awesome 5 Free';
-          font-weight: 900;
-          font-size: 10px;
-          left: 50%;
-          top: 50%;
-          transform: translate(-50%, -50%);
+      
+        .ship-not-hit {
+          background-color: #839b97;
+          cursor: pointer;
         }
-      }
-    
-      .missed {
-        background-color: #bce6eb;
+      
+        .ship-hit {
+          background-color: #c86b85;
 
-        &::after {
-          content: '\f111';
-          position: absolute;
-          font-family: 'Font Awesome 5 Free';
-          font-weight: 900;
-          font-size: 5px;
-          left: 50%;
-          top: 50%;
-          transform: translate(-50%, -50%);
+          &::after {
+            content: '\f00d';
+            position: absolute;
+            font-family: 'Font Awesome 5 Free';
+            font-weight: 900;
+            font-size: 10px;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+          }
         }
-      }
+      
+        .ship-sunk {
+          background-color: #bbbbbb;
 
-      .marked {
-        background-color: #9f5f80;
-      }
-
-      .marked-origin {
-        background-color: #9f5f80;
-
-        &::after {
-          content: '\f0e2';
-          position: absolute;
-          font-family: 'Font Awesome 5 Free';
-          font-weight: 900;
-          font-size: 10px;
-          left: 50%;
-          top: 50%;
-          transform: translate(-50%, -50%);
+          &::after {
+            content: '\f00d';
+            position: absolute;
+            font-family: 'Font Awesome 5 Free';
+            font-weight: 900;
+            font-size: 10px;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+          }
         }
-      }
+      
+        .missed {
+          background-color: #bce6eb;
 
-      .valid {
-        background-color: #8db596;
-      }
+          &::after {
+            content: '\f111';
+            position: absolute;
+            font-family: 'Font Awesome 5 Free';
+            font-weight: 900;
+            font-size: 5px;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+          }
+        }
 
-      .valid-origin {
-        background-color: #8db596;
+        .marked {
+          background-color: #9f5f80;
+        }
+
+        .marked-origin {
+          background-color: #9f5f80;
+
+          &::after {
+            content: '\f0e2';
+            position: absolute;
+            font-family: 'Font Awesome 5 Free';
+            font-weight: 900;
+            font-size: 10px;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+          }
+        }
+
+        .valid {
+          background-color: #8db596;
+        }
+
+        .valid-origin {
+          background-color: #8db596;
+        }
       }
     }
   }
-}
 
-.active {
-  opacity: .8;
+  .active {
+    opacity: .8;
 
-  .board-row {
+    .board-row {
 
-    .board-element {
+      .board-element {
 
-      .board-tile {
-      
-        &:hover {
-          border: 1px solid #8db596;
-          cursor: pointer;
+        .board-tile {
+        
+          &:hover {
+            border: 1px solid #8db596;
+            cursor: pointer;
+          }
         }
       }
     }
+  }
+
+  h4 {
+    margin-top: 1rem;
+    font-weight: 300;
+    font-size: 1rem;
   }
 }

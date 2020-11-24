@@ -8,7 +8,7 @@ function DisplayShips(props: {
 }): ReactElement {
   return (
     <div className={`ships-container ${props.player}`}>
-      {props.ships.map((ship, i) => {
+      {props.ships.sort((a, b) => a.getLength - b.getLength).map((ship, i) => {
         return (
           <div key={i} className="ship-wrapper">
             {ship.getParts.map((_, j) => {

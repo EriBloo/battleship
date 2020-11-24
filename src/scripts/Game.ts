@@ -8,11 +8,11 @@ class Game {
   private initialized: boolean;
   private winner: -1 | 0 | 1;
 
-  constructor(shipSizes: number[]) {
+  constructor(shipSizes: number[], size: number) {
     this.shipSizes = shipSizes;
     this.players = [
-      new Player(new Gameboard(10), 'Player'),
-      new Player(new Gameboard(10), 'Computer'),
+      new Player(new Gameboard(size), 'Player'),
+      new Player(new Gameboard(size), 'Computer'),
     ];
     this.currentPlayer = 0;
     this.initialized = false;

@@ -1,20 +1,28 @@
-import React, { ReactElement, useEffect, useState } from 'react';
+import React, { ReactElement, useState } from 'react';
 import Board from './Board';
 import DisplayShips from './DisplayShips';
 import Game from '../scripts/Game';
 import '../styles/Boards.scss';
 import Battleship from '../scripts/Battleship';
 
-function Boards(props: { game: Game; update: number }): ReactElement {
-  const [turn, setTurn] = useState(props.game.getTurn);
-  const [statePlayer, setStatePlayer] = useState<{ [state: string]: [number, number][] }>(
-    props.game.getPlayer(0).getBoard.getBoardStates,
+function Boards(props: {
+  game: Game;
+  updateTurn: () => void;
+  turn: 0 | 1;
+  init: boolean;
+}): ReactElement {
+  const [statePlayer, setStatePlayer] = useState<{
+    [state: string]: [number, number][];
+  }>(props.game.getPlayer(0).getBoard.getBoardStates);
+  const [stateComputer, setStateComputer] = useState<{
+    [state: string]: [number, number][];
+  }>(props.game.getPlayer(1).getBoard.getBoardStates);
+  const [shipsPlayer, setShipsPlayer] = useState<Battleship[]>(
+    props.game.getPlayer(0).getBoard.getShips,
   );
-  const [stateComputer, setStateComputer] = useState<{ [state: string]: [number, number][] }>(
-    props.game.getPlayer(1).getBoard.getBoardStates,
+  const [shipsComputer, setShipsComputer] = useState<Battleship[]>(
+    props.game.getPlayer(1).getBoard.getShips,
   );
-  const [shipsPlayer, setShipsPlayer] = useState<Battleship[]>(props.game.getPlayer(0).getBoard.getShips);
-  const [shipsComputer, setShipsComputer] = useState<Battleship[]>(props.game.getPlayer(1).getBoard.getShips);
 
   function updateStatePlayer(): void {
     setStatePlayer(props.game.getPlayer(0).getBoard.getBoardStates);
@@ -32,10 +40,6 @@ function Boards(props: { game: Game; update: number }): ReactElement {
     setShipsComputer(props.game.getPlayer(1).getBoard.getShips);
   }
 
-  function updateTurn() {
-    setTurn(props.game.getTurn);
-  }
-
   async function loop(loc: [number, number]): Promise<void> {
     function timeout(min: number, max: number) {
       return new Promise((resolve) =>
@@ -49,14 +53,16 @@ function Boards(props: { game: Game; update: number }): ReactElement {
         props.game.setWinner = props.game.isWinner();
         updateStateComputer();
         updateShipsComputer();
+        props.updateTurn();
+        props.game.next();
         if (props.game.getWinner === -1) {
-          props.game.next();
-          updateTurn();
+          props.updateTurn();
           await timeout(500, 2000);
           props.game.computerTurn();
           props.game.setWinner = props.game.isWinner();
+          props.updateTurn();
           props.game.next();
-          updateTurn();
+          props.updateTurn();
           updateStatePlayer();
           updateShipsPlayer();
         }
@@ -74,15 +80,10 @@ function Boards(props: { game: Game; update: number }): ReactElement {
     updateStatePlayer();
   }
 
-  useEffect(() => {
-    updateStatePlayer();
-    updateStateComputer();
-  }, [props.update]);
-
   return (
     <div className="boards-container">
       <div className="board-container">
-        <DisplayShips player='player' ships={shipsPlayer} />
+        <DisplayShips player="player" ships={shipsPlayer} />
         <Board
           player={0}
           game={props.game}
@@ -90,7 +91,8 @@ function Boards(props: { game: Game; update: number }): ReactElement {
           loop={loop}
           rotate={rotateShip}
           move={moveShip}
-          turn={turn}
+          turn={props.turn}
+          init={props.init}
         />
       </div>
       <div className="board-container">
@@ -101,9 +103,10 @@ function Boards(props: { game: Game; update: number }): ReactElement {
           loop={loop}
           rotate={rotateShip}
           move={moveShip}
-          turn={turn}
+          turn={props.turn}
+          init={props.init}
         />
-        <DisplayShips player='computer' ships={shipsComputer} />
+        <DisplayShips player="computer" ships={shipsComputer} />
       </div>
     </div>
   );

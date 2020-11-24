@@ -4,7 +4,7 @@ import Board from '../Board';
 import Game from '../../scripts/Game';
 
 test('component renders', () => {
-  const game = new Game([2, 2]);
+  const game = new Game([2, 2], 4);
   const tree = renderer
     .create(
       <Board
@@ -14,6 +14,13 @@ test('component renders', () => {
         loop={() => {
           return;
         }}
+        rotate={() => {
+          return;
+        }}
+        move={() => {
+          return;
+        }}
+        turn={0}
       />,
     )
     .toJSON();

@@ -12,6 +12,7 @@ function Board(props: {
   rotate: (loc: [number, number]) => void;
   move: (from: [number, number], to: [number, number]) => void;
   turn: 0 | 1;
+  init: boolean;
 }): ReactElement {
   const [active, setActive] = useState<string>('');
   const [marked, setMarked] = useState<Battleship | null>(null);
@@ -186,45 +187,52 @@ function Board(props: {
   }
 
   useEffect(() => {
-    if (props.turn === 1 - props.player) {
+    if (!props.game.getInit) {
+      setActive('active');
+    } else if (props.turn === 1 - props.player) {
       setActive('active');
     } else {
       setActive('');
     }
     updateTiles();
-  }, [props.turn]);
+  }, [props.turn, props.init]);
 
   useEffect(() => {
     updateTiles();
   });
 
   return (
-    <table className={`board-wrapper ${active}`}>
-      <tbody>
-        {props.game.getPlayer(props.player).getBoard.getTiles.map((row, i) => {
-          return (
-            <tr key={i} className="board-row">
-              {row.map((_, j) => {
-                return (
-                  <td key={j} className="board-element">
-                    <div
-                      key={`(${i}, ${j})`}
-                      data-x={`${i}`}
-                      data-y={`${j}`}
-                      data-player={props.player}
-                      className="board-tile"
-                      onClick={chooseAction}
-                      onMouseMove={showValid}
-                      onMouseLeave={removeValid}
-                    />
-                  </td>
-                );
-              })}
-            </tr>
-          );
-        })}
-      </tbody>
-    </table>
+    <div className="board">
+      <table className={`board-wrapper ${active}`}>
+        <tbody>
+          {props.game
+            .getPlayer(props.player)
+            .getBoard.getTiles.map((row, i) => {
+              return (
+                <tr key={i} className="board-row">
+                  {row.map((_, j) => {
+                    return (
+                      <td key={j} className="board-element">
+                        <div
+                          key={`(${i}, ${j})`}
+                          data-x={`${i}`}
+                          data-y={`${j}`}
+                          data-player={props.player}
+                          className="board-tile"
+                          onClick={chooseAction}
+                          onMouseMove={showValid}
+                          onMouseLeave={removeValid}
+                        />
+                      </td>
+                    );
+                  })}
+                </tr>
+              );
+            })}
+        </tbody>
+      </table>
+      <h4>{`${props.game.getPlayer(props.player).getName} board`}</h4>
+    </div>
   );
 }
 
