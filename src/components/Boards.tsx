@@ -11,7 +11,6 @@ function Boards(props: { game: Game; update: number }): ReactElement {
   const [stateComputer, setStateComputer] = useState(
     props.game.getPlayer(1).getBoard.getBoardStates,
   );
-  const [block, setBlock] = useState(false);
 
   function timeout(min: number, max: number) {
     return new Promise((resolve) =>
@@ -32,9 +31,7 @@ function Boards(props: { game: Game; update: number }): ReactElement {
   }
 
   async function loop(loc: [number, number]): Promise<void> {
-    if (props.game.getInit && props.game.getWinner === -1) {
-      if (block) return;
-      setBlock(true);
+    if (props.game.getWinner === -1) {
       const success = props.game.playerTurn([loc[0], loc[1]]);
       if (success) {
         props.game.setWinner = props.game.isWinner();
@@ -48,26 +45,19 @@ function Boards(props: { game: Game; update: number }): ReactElement {
           props.game.next();
           updateTurn();
           updateStatePlayer();
-          setBlock(false);
         }
-      } else {
-        setBlock(false);
       }
     }
   }
 
   function rotateShip(loc: [number, number]): void {
-    if (!props.game.getInit) {
-      props.game.getPlayer(0).getBoard.rotateShip(loc);
-      updateStatePlayer();
-    }
+    props.game.getPlayer(0).getBoard.rotateShip(loc);
+    updateStatePlayer();
   }
 
   function moveShip(from: [number, number], to: [number, number]): void {
-    if (!props.game.getInit) {
-      props.game.getPlayer(0).getBoard.moveShip(from, to);
-      updateStatePlayer();
-    }
+    props.game.getPlayer(0).getBoard.moveShip(from, to);
+    updateStatePlayer();
   }
 
   useEffect(() => {

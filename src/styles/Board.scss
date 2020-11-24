@@ -1,7 +1,7 @@
 .board-wrapper {
   width: 20rem;
   height: 20rem;
-  background-color: #00adb5;
+  background-color: #00acb5ad;
   opacity: .6;
 
   .board-row {
@@ -9,30 +9,76 @@
     .board-element {
 
       .board-tile {
+        position: relative;
         width: 2rem;
         height: 2rem;
         background-color: #f4f4f4;
       }
     
       .ship-not-hit {
-        background-color: rgb(109, 109, 168);
+        background-color: #92817a;
         cursor: pointer;
       }
     
       .ship-hit {
-        background-color: rgb(194, 135, 135);
+        background-color: #c86b85;
+
+        &::after {
+          content: '\f00d';
+          position: absolute;
+          font-family: 'Font Awesome 5 Free';
+          font-weight: 900;
+          font-size: 10px;
+          left: 50%;
+          top: 50%;
+          transform: translate(-50%, -50%);
+        }
       }
     
       .ship-sunk {
-        background-color: rgb(116, 116, 116);
+        background-color: #707070;
+
+        &::after {
+          content: '\f00d';
+          position: absolute;
+          font-family: 'Font Awesome 5 Free';
+          font-weight: 900;
+          font-size: 10px;
+          left: 50%;
+          top: 50%;
+          transform: translate(-50%, -50%);
+        }
       }
     
       .missed {
-        background-color: rgb(236, 236, 162);
+        background-color: #bce6eb;
+
+        &::after {
+          content: '\f111';
+          position: absolute;
+          font-family: 'Font Awesome 5 Free';
+          font-weight: 900;
+          font-size: 5px;
+          left: 50%;
+          top: 50%;
+          transform: translate(-50%, -50%);
+        }
       }
 
       .marked {
-        background-color: coral;
+        background-color: #5c6e91;
+      }
+
+      .marked-origin {
+        border: 1px solid #5c6e91;
+      }
+
+      .valid {
+        background-color: #8db596;
+      }
+
+      .valid-origin {
+        border: 1px solid #8db596;
       }
     }
   }
@@ -41,9 +87,17 @@
 .active {
   opacity: .8;
 
-  .board-tile:hover {
-    background-color: rgb(166, 214, 166);
-    border: 2px solid rgb(92, 158, 92);
-    cursor: pointer;
+  .board-row {
+
+    .board-element {
+
+      .board-tile {
+      
+        &:hover {
+          border: 1px solid #8db596;
+          cursor: pointer;
+        }
+      }
+    }
   }
 }

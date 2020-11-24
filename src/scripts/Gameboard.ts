@@ -59,6 +59,40 @@ class Gameboard {
     return states;
   }
 
+  get getValidTiles(): [number, number][] {
+    const valid: [number, number][] = [];
+    const offset: [number, number][] = [
+      [-1, -1],
+      [-1, 0],
+      [-1, 1],
+      [0, -1],
+      [0, 1],
+      [1, -1],
+      [1, 0],
+      [1, 1],
+    ];
+    for (let i = 0; i < this.size; i += 1) {
+      for (let j = 0; j < this.size; j += 1) {
+        if (
+          offset.every((off) => {
+            if (
+              i + off[0] < 0 ||
+              i + off[0] > this.size - 1 ||
+              j + off[1] < 0 ||
+              j + off[1] > this.size - 1
+            ) {
+              return true;
+            }
+            return this.tiles[i + off[0]][j + off[1]] === false;
+          })
+        ) {
+          valid.push([i, j]);
+        }
+      }
+    }
+    return valid;
+  }
+
   placeShip(
     shipLength: number,
     location: [number, number],
@@ -85,7 +119,7 @@ class Gameboard {
       [1, 1],
     ];
 
-    placementOffset.forEach((placement) => {
+    placementOffset.map((placement) => {
       // checks if ship placement is valid
       if (
         !validPlacement.some(
@@ -96,7 +130,7 @@ class Gameboard {
       ) {
         throw new Error('Invalid location.');
       }
-      contactOffset.forEach((contact) => {
+      contactOffset.map((contact) => {
         // checks tiles around ship, so no touching ship placing is possible
         if (
           location[0] - placement[0] + contact[0] < 0 ||
@@ -116,7 +150,7 @@ class Gameboard {
       });
     });
 
-    placementOffset.forEach((placement) => {
+    placementOffset.map((placement) => {
       // if everything is correct places ship
       this.tiles[location[0] - placement[0]][
         location[1] - placement[1]
@@ -137,7 +171,7 @@ class Gameboard {
       (_, k) => (shipRotated ? [k, 0] : [0, k]),
     );
 
-    offset.forEach((off) => {
+    offset.map((off) => {
       this.tiles[shipOrigin[0] - off[0]][shipOrigin[1] - off[1]] = false;
     });
     this.ships = this.ships.filter(
@@ -172,8 +206,7 @@ class Gameboard {
       try {
         this.placeShip(ship.getLength, to, ship.getRotated);
         return true;
-      }
-      catch {
+      } catch {
         this.placeShip(ship.getLength, ship.getOrigin, ship.getRotated);
         return false;
       }
@@ -222,7 +255,7 @@ class Gameboard {
     const done: boolean[] = [];
     ships
       .sort((a, b) => b - a)
-      .forEach((len) => {
+      .map((len) => {
         let success = false;
         const tried: [[number, number], boolean][] = [];
         let location: [number, number] = [
@@ -274,8 +307,8 @@ class Gameboard {
         [1, 0],
         [1, 1],
       ];
-      partsOffset.forEach((part) => {
-        aroundOffset.forEach((around) => {
+      partsOffset.map((part) => {
+        aroundOffset.map((around) => {
           if (
             origin[0] - part[0] + around[0] < 0 ||
             origin[0] - part[0] + around[0] > this.size - 1 ||
