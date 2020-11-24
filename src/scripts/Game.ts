@@ -17,6 +17,9 @@ class Game {
     this.currentPlayer = 0;
     this.initialized = false;
     this.winner = -1;
+
+    this.players[0].getBoard.distributeShips(this.shipSizes);
+    this.players[1].getBoard.distributeShips(this.shipSizes);
   }
 
   init(): void {
@@ -24,7 +27,6 @@ class Game {
       this.players[0].getBoard.getShips.length === this.shipSizes.length &&
       !this.initialized
     ) {
-      this.players[1].getBoard.distributeShips(this.shipSizes);
       this.initialized = true;
     }
   }

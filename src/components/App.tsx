@@ -1,4 +1,4 @@
-import React, { ReactElement, useState, useEffect } from 'react';
+import React, { ReactElement, useState } from 'react';
 import Boards from './Boards';
 import Game from '../scripts/Game';
 import 'normalize.css';
@@ -12,11 +12,6 @@ function App(): ReactElement {
   const initGame = () => {
     game.init();
   };
-
-  useEffect(() => {
-    game.getPlayer(0).getBoard.distributeShips(ships);
-    setUpdate((prevState) => 1 - prevState);
-  }, []);
 
   return (
     <div className="app">

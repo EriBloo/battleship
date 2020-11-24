@@ -1,26 +1,16 @@
-.board-container {
+.boards-container {
   width: 100vw;
-  height: 100vh;
+  height: 60vh;
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
   align-items: center;
   gap: 10rem;
 
-  .ships-wrapper {
+  .board-container {
     display: flex;
-    flex-direction: column;
+    padding: 0 4rem 0 4rem;
     gap: 0.5rem;
-
-    .ship {
-      display: flex;
-      gap: 0.3rem;
-
-      .part {
-        width: 2rem;
-        height: 2rem;
-        background-color: chartreuse;
-      }
-    }
+    position: relative;
   }
 }

@@ -1,0 +1,37 @@
+.ships-container {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  top: 1rem;
+
+  .ship-wrapper {
+    display: flex;
+    gap: 0.2rem;
+
+    .part {
+      width: 0.5rem;
+      height: 0.5rem;
+      background-color: #839b97;
+    }
+
+    .sunk {
+      background-color: #bbbbbb;
+    }
+  }
+}
+
+.player {
+  align-items: flex-end;
+  right: 95%;
+}
+
+.computer {
+  left: 95%;
+}
+
+@media all and (max-width: 500px) {
+  .ships-container {
+    display: none;
+  }
+}

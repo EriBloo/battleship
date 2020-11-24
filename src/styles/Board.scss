@@ -1,22 +1,42 @@
 .board-wrapper {
-  width: 20rem;
-  height: 20rem;
-  background-color: #00acb5ad;
   opacity: .6;
+  counter-reset: row;
+  counter-reset: column;
 
   .board-row {
+    counter-increment: row;
+
+    &:last-child {
+
+      .board-element {
+        counter-increment: column;
+        
+        &::after {
+          content: counter(column);
+        }
+      }
+    }
+
+    &::before {
+      content: counter(row);
+    }
     
     .board-element {
 
+      &:first {
+        background-color: red;
+      }
+
       .board-tile {
         position: relative;
-        width: 2rem;
-        height: 2rem;
-        background-color: #f4f4f4;
+        width: calc(1rem + 1vw);
+        height: calc(1rem + 1vw);
+        background-color: #eeeeee;
+        border: 1px solid #393b44;
       }
     
       .ship-not-hit {
-        background-color: #92817a;
+        background-color: #839b97;
         cursor: pointer;
       }
     
@@ -36,7 +56,7 @@
       }
     
       .ship-sunk {
-        background-color: #707070;
+        background-color: #bbbbbb;
 
         &::after {
           content: '\f00d';
@@ -66,11 +86,22 @@
       }
 
       .marked {
-        background-color: #5c6e91;
+        background-color: #9f5f80;
       }
 
       .marked-origin {
-        border: 1px solid #5c6e91;
+        background-color: #9f5f80;
+
+        &::after {
+          content: '\f0e2';
+          position: absolute;
+          font-family: 'Font Awesome 5 Free';
+          font-weight: 900;
+          font-size: 10px;
+          left: 50%;
+          top: 50%;
+          transform: translate(-50%, -50%);
+        }
       }
 
       .valid {
@@ -78,7 +109,7 @@
       }
 
       .valid-origin {
-        border: 1px solid #8db596;
+        background-color: #8db596;
       }
     }
   }
